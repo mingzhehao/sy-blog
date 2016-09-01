@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{.PageTitle}} - {{.BlogTitle}}</title>
+    <script type="text/javascript" src="/static/javascript/lib.min.js"></script>
+    <link rel="stylesheet" href="/static/css/lib.min.css"/>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/g.css"/>
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <style type="text/css">
+        .container{width:970px;max-width:970px;margin:0 auto;zoom:1}
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+    <div class="container">
+        <ul class="nav navbar-nav">
+            {{ if eq .Active "list"}}
+                <li><a href="/">首页</a></li>
+                <li class="active"><a href="/">目录</a></li>
+                <li><a href="/me">个人中心</a></li>
+            {{else if eq .Active "me"}}
+                <li><a href="/">首页</a></li>
+                <li><a href="/">目录</a></li>
+                <li class="active"><a href="/me">个人中心</a></li>
+            {{else}}
+                <li class="active"><a href="/">首页</a></li>
+                <li><a href="/">目录</a></li>
+                <li><a href="/me">个人中心</a></li>
+            {{end}}
+          </ul>
+    </div>
+    </nav>
+
+    <nav class="navbar">
+    <div class="container">
+            <div class="fr">
+                <div id="contact-me" style="margin-top: 42px!important;">
+                    <div class="social">
+                        <a target="_blank" class="weibo" href="http://weibo.com/cloudOfGod" title="Weibo">Weibo</a>
+                        <a target="_blank" class="facebook" href="https://www.facebook.com/" title="Facebook">Facebook</a>
+                        <a target="_blank" class="twitter" href="https://twitter.com/" title="Twitter">Twitter</a>
+                        <a target="_blank" class="github" href="https://github.com/mingzhehao" title="GitHub">GitHub</a>
+                    </div>
+                </div>
+            </div>
+            <div class="fl">
+                <a href="/" ><img id="logo-img" src="{{.BlogLogo}}" class="img-circle" width="90" height="90"></a>
+            </div>
+            <div class="fl">
+                <div id="blog-title"><a href="/">{{.BlogTitle}}</a></div>
+                <div id="blog-resume">{{.BlogResume}}</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+    </div>
+    </nav>
+
+
+    <div class="container">
+        <ul class="nav nav-pills" style="margin-bottom:10px;">
+            <li class="{{if .IsList}}active{{end}}"><a href="/me">分类列表</a></li>                    
+            <li class="{{if .IsAddCatalog}}active{{end}}"><a href="/me/catalog/add">增加分类</a></li>                    
+            <li class="{{if .IsPost}}active{{end}}"><a href="/me/article/add">发表博文</a></li>
+            <li class="{{if .IsDraft}}active{{end}}"><a href="/me/article/draft">[草稿箱]</a></li>
+            <li><a href="/logout">退出</a></li>             
+        </ul>
+        <div class="row" style="margin-left:15px;margin-right:15px;">
+            {{.LayoutContent}}
+        </div>
+    </div>
+<div class="clear"></div>
+<footer class="mt20">
+    <div class="container">
+        <div class="row" style="margin-left:15px;margin-right:15px;">
+            <div class="site-source">
+                <a href="/">Beego-Blog</a> is open source on <a href="https://github.com/UlricQin/beego-blog" target="_blank">GitHub</a>.<br />
+                Patches, suggestions, and comments are welcome.
+            </div>
+            <div class="sfc-member">
+                Powered by <a href="https://twitter.com/UlricQin" target="_blank">Mingzhehao</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
