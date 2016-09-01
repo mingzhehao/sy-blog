@@ -10,7 +10,8 @@ mkdir -p $GOPATH/src/github.com/mingzhehao
 cd $GOPATH/src/github.com/mingzhehao
 git clone https://github.com/UlricQin/beego-blog.git
 go get github.com/mingzhehao/beego-blog/...
-cd beego-blog && modify conf/app.conf
+cd beego-blog 
+修改 conf/app.conf
 bee run
 ```
 
