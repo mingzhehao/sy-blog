@@ -6,10 +6,9 @@ mingzhehao's blog use beego framework
 ## install
 
 ```
-rename: git clone https://github.com/mingzhehao/sy-blog.git beego-blog
 mkdir -p $GOPATH/src/github.com/mingzhehao
 cd $GOPATH/src/github.com/mingzhehao
-git clone https://github.com/UlricQin/beego-blog.git
+git clone https://github.com/mingzhehao/sy-blog.git beego-blog
 go get github.com/mingzhehao/beego-blog/...
 cd beego-blog 
 修改 conf/app.conf
