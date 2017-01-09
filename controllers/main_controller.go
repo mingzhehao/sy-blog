@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/astaxie/beego"
 	"github.com/mingzhehao/beego-blog/g"
 	"github.com/mingzhehao/beego-blog/models/blog"
 	"github.com/mingzhehao/beego-blog/models/catalog"
@@ -10,12 +11,32 @@ type MainController struct {
 	BaseController
 }
 
-func (this *MainController) Get() {
-	this.Data["Catalogs"] = catalog.All()
+/**
+ * 获取文章列表
+ */
+func (this *MainController) ArticleList() {
+	currPage, _ := this.GetInt("page")
+	if currPage == 0 {
+		currPage = 1
+	}
+	limit := 10
+	this.Data["Catalogs"], _, _ = blog.GetBlogs(currPage, limit)
+	beego.Notice(this.Data["Catalogs"])
 	this.Data["PageTitle"] = "首页"
 	this.Data["Active"] = "list"
 	this.Layout = "layout/default.html"
 	this.TplName = "index.html"
+}
+
+/**
+ * 获取目录列表
+ */
+func (this *MainController) CatalogList() {
+	this.Data["Catalogs"] = catalog.All()
+	this.Data["PageTitle"] = "首页"
+	this.Data["Active"] = "catalog"
+	this.Layout = "layout/default.html"
+	this.TplName = "catalog/index.html"
 }
 
 func (this *MainController) Read() {

@@ -8,6 +8,15 @@ import (
 	"time"
 )
 
+func GetBlogs(currPage, pageSize int) ([]*Blog, int64, error) {
+	dbRecs := make([]*Blog, 0)
+	total, err := Blogs().OrderBy("-created").Limit(pageSize, (currPage-1)*pageSize).All(&dbRecs)
+	if err != nil {
+		return nil, 0, err
+	}
+	return dbRecs, total, err
+}
+
 func OneById(id int64) *Blog {
 	if id <= 0 {
 		return nil

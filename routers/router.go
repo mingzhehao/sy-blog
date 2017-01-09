@@ -9,7 +9,8 @@ func init() {
 
 	beego.AutoRouter(&controllers.ApiController{})
 
-	beego.Router("/", &controllers.MainController{})
+	beego.Router("/", &controllers.MainController{}, "get:ArticleList")
+	beego.Router("/catalog", &controllers.MainController{}, "get:CatalogList")
 	beego.Router("/article/:ident", &controllers.MainController{}, "get:Read")
 	beego.Router("/catalog/:ident", &controllers.MainController{}, "get:ListByCatalog")
 
