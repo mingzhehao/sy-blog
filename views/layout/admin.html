@@ -12,50 +12,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-default">
-    <div class="container">
-        <ul class="nav navbar-nav">
-            {{ if eq .Active "list"}}
-                <li><a href="/">首页</a></li>
-                <li class="active"><a href="/">目录</a></li>
-                <li><a href="/me">个人中心</a></li>
-            {{else if eq .Active "me"}}
-                <li><a href="/">首页</a></li>
-                <li><a href="/">目录</a></li>
-                <li class="active"><a href="/me">个人中心</a></li>
-            {{else}}
-                <li class="active"><a href="/">首页</a></li>
-                <li><a href="/">目录</a></li>
-                <li><a href="/me">个人中心</a></li>
-            {{end}}
-          </ul>
-    </div>
-    </nav>
-
-    <nav class="navbar">
-    <div class="container">
-            <div class="fr">
-                <div id="contact-me" style="margin-top: 42px!important;">
-                    <div class="social">
-                        <a target="_blank" class="weibo" href="http://weibo.com/cloudOfGod" title="Weibo">Weibo</a>
-                        <a target="_blank" class="facebook" href="https://www.facebook.com/" title="Facebook">Facebook</a>
-                        <a target="_blank" class="twitter" href="https://twitter.com/" title="Twitter">Twitter</a>
-                        <a target="_blank" class="github" href="https://github.com/mingzhehao" title="GitHub">GitHub</a>
-                    </div>
-                </div>
-            </div>
-            <div class="fl">
-                <a href="/" ><img id="logo-img" src="{{.BlogLogo}}" class="img-circle" width="90" height="90"></a>
-            </div>
-            <div class="fl">
-                <div id="blog-title"><a href="/">{{.BlogTitle}}</a></div>
-                <div id="blog-resume">{{.BlogResume}}</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-    </div>
-    </nav>
-
+    {{template "menu" .}}
 
     <div class="container">
         <ul class="nav nav-pills" style="margin-bottom:10px;">
