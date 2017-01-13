@@ -6,14 +6,22 @@
             {{ if eq .Active "catalog"}}
                 <li><a href="/">首页</a></li>
                 <li class="active"><a href="/catalog">目录</a></li>
+                <li><a href="/message">留言</a></li>
                 <li><a href="/me">个人中心</a></li>
             {{else if eq .Active "me"}}
                 <li><a href="/">首页</a></li>
                 <li><a href="/catalog">目录</a></li>
+                <li><a href="/message">留言</a></li>
                 <li class="active"><a href="/me">个人中心</a></li>
+            {{else if eq .Active "message"}}
+                <li><a href="/">首页</a></li>
+                <li><a href="/catalog">目录</a></li>
+                <li><a class="active" href="/message">留言</a></li>
+                <li ><a href="/me">个人中心</a></li>
             {{else}}
                 <li class="active"><a href="/">首页</a></li>
                 <li><a href="/catalog">目录</a></li>
+                <li><a href="/message">留言</a></li>
                 <li><a href="/me">个人中心</a></li>
             {{end}}
           </ul>
