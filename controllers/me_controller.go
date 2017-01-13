@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/mingzhehao/beego-blog/models/catalog"
+	"github.com/mingzhehao/scloud/models/catalog"
 )
 
 type MeController struct {

@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/mingzhehao/beego-blog/g"
-	"github.com/mingzhehao/beego-blog/models/catalog"
+	"github.com/mingzhehao/scloud/g"
+	"github.com/mingzhehao/scloud/models/catalog"
 	"github.com/mingzhehao/goutils/filetool"
 	"github.com/mingzhehao/goutils/strtool"
 	"strings"

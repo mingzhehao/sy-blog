@@ -3,8 +3,8 @@ package catalog
 import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
-	"github.com/mingzhehao/beego-blog/g"
-	. "github.com/mingzhehao/beego-blog/models"
+	"github.com/mingzhehao/scloud/g"
+	. "github.com/mingzhehao/scloud/models"
 )
 
 func OneById(id int64) *Catalog {

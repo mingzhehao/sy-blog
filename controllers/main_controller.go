@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/mingzhehao/beego-blog/g"
-	"github.com/mingzhehao/beego-blog/models/blog"
-	"github.com/mingzhehao/beego-blog/models/catalog"
+	"github.com/mingzhehao/scloud/g"
+	"github.com/mingzhehao/scloud/models/blog"
+	"github.com/mingzhehao/scloud/models/catalog"
 )
 
 type MainController struct {

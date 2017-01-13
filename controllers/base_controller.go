@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/mingzhehao/beego-blog/g"
+	"github.com/mingzhehao/scloud/g"
 	"github.com/mingzhehao/goutils/paginator"
 	"strconv"
 )
