@@ -1,15 +1,180 @@
-<div id="collections">
-        {{range .Catalogs}}
-        <div class="collection-card" itemscope="" itemtype="http://schema.org/CollectionPage">
-            <a style="border-top:1px solid #eee;border-bottom:1px solid #eee;" href="/catalog/{{.Ident}}">{{.Title}}</a>
-            <div class="card-info">
-                <a href="/catalog/{{.Ident}}"><h3 class="collection-name">{{.Title}}</h3></a>
-
-                <p class="description">
-                    {{.Keywords}}
-                </p>
-            </div>
-            
+<style type="text/css">
+.media-list {
+    list-style: outside none none;
+    padding-left: 0;
+}
+.media-list > .media {
+    border-bottom: 1px solid #eee;
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+.media > .pull-left {
+    margin-right: 10px;
+}
+.pull-left {
+    float: left !important;
+}
+.media > .pull-right {
+    margin-left: 10px;
+}
+.pull-right {
+    float: right !important;
+}
+.media-list .media-action {
+    color: #999;
+    font-size: 12px;
+    margin-top: 10px;
+}
+a.comments, a.answers, a.replies, a.views {
+    background: #ccc none repeat scroll 0 0;
+    color: #f5f5f5;
+    display: inline-block;
+    font-size: 12px;
+    height: 52px;
+    line-height: 1.8em;
+    margin-left: 10px;
+    text-align: center;
+    text-decoration: none;
+    width: 50px;
+}
+a.comments em, a.answers em, a.replies em, a.views em {
+    background: #f5f5f5 none repeat scroll 0 0;
+    color: #999;
+    display: block;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 2.1em;
+}
+.media-object, .media-user .media-object {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    height: 48px;
+    padding: 2px;
+    width: 48px;
+}
+.media, .media-body {
+    overflow: hidden;
+}
+.media-list > .media > .media-body > h2.media-heading {
+    font-size: 16px;
+    margin: 8px 0;
+}
+.media-heading {
+    color: #999;
+}
+.media-heading {
+    margin: 0 0 5px;
+}
+.media-object, .avatar-list img, .avatar-big, .avatar-middle, .avatar-small, .online img, .top img {
+    background: #fff none repeat scroll 0 0;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    padding: 2px;
+}
+.media-action a {
+    color: #999;
+}
+a {
+    color: #428bca;
+    text-decoration: none;
+}
+.panel-body {
+    padding: 15px;
+}
+.panel-body ul {
+    margin-bottom: 0;
+}
+.list {
+    padding: 0;
+}
+.list li {
+    border-bottom: 1px dashed #ddd;
+    line-height: 2.2em;
+    list-style: outside none none;
+}
+.tag-list {
+    padding: 0;
+}
+.tag-list li {
+    float: left;
+    list-style: outside none none;
+    margin: 5px;
+}
+.tag-list li .label {
+    margin-left: 0;
+}
+.tag-list .label {
+    font-size: 12px;
+    font-weight: normal;
+    margin-left: 10px;
+}
+.tag-list .label a {
+    color: #fff;
+    text-decoration: none;
+}
+</style>
+<div class="row">
+    <div class="col-md-9 col-sm-8">
+        {{range .Articles}}
+        <div class="media-list">
+            <li class="media" >
+                <a class="pull-left" href="/User/1" data-original-title="" title="">
+                    <img class="media-object" style="width:48px;height:48px;" src="/static/images/portrait.jpg" alt="">
+                </a>
+                <div class="pull-right">
+                    <a class="views" href="/article/{{.Ident}}">浏览<em>2</em></a>
+                    <a class="answers" href="/article/{{.Ident}}">回答<em>1</em></a>
+                </div>
+                <div class="media-body">
+                    <h2 class="media-heading">
+                        <span class="glyphicon glyphicon-question-sign"></span> 
+                        <a href="/article/{{.Ident}}">{{.Title}}</a>
+                    </h2>
+                    <div class="media-action">
+                        <a href="/User/1">kladmin</a> 发布于 2014-12-31 05:21:00<span class="dot"> • </span>
+                        <span class="glyphicon glyphicon-thumbs-up"></span> 1        
+                    </div>
+                </div>
+            </li>
         </div>
         {{end}}
+    </div>
+
+    <div class="col-md-3 col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">热门主题</div>
+            <div class="panel-body">
+                <ul class="list">
+                <li>
+                    <a href="/music/view?id=6" title="" data-toggle="tooltip" data-original-title="流年">流年</a>
+                </li>
+                <li>
+                    <a href="/music/view?id=4" title="" data-toggle="tooltip" data-original-title="这是一首歌">这是一首歌</a>
+                </li>
+                <li>
+                    <a href="/music/view?id=1" title="" data-toggle="tooltip" data-original-title="一个人的世界">一个人的世界</a>       </li>
+               <li>
+                    <a href="/music/view?id=2" title="" data-toggle="tooltip" data-original-title="hero">hero</a>
+                </li>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">热门标签</div>
+            <div class="panel-body">
+                <ul class="tag-list">
+                    <li><span class="label label-default"><a href="/music/index?tag=hero">hero</a></span></li>
+                    <li><span class="label label-warning"><a href="/music/index?tag=run+away">run away</a></span></li>
+                    <li><span class="label label-primary"><a href="/music/index?tag=%E6%97%B6%E9%97%B4%E8%BD%B4">时间轴</a></span></li>
+                    <li><span class="label label-default"><a href="/music/index?tag=%E6%B5%81%E5%B9%B4">流年</a></span></li>
+                    <li><span class="label label-primary"><a href="/music/index?tag=%E8%81%86%E5%90%AC%E4%B8%96%E7%95%8C%E7%9A%84%E5%A3%B0%E9%9F%B3">聆听世界的声音</a></span></li>
+                    <li><span class="label label-default"><a href="/music/index?tag=%E8%89%BE%E6%96%AF">艾斯</a></span></li>
+                    <li><span class="label label-default"><a href="/music/index?tag=%E8%BF%99%E6%98%AF%E4%B8%80%E9%A6%96%E6%AD%8C">这是一首歌</a></span>
+                    </li>                    
+                </ul>   
+            </div>
+        </div>
+    </div>
 </div>

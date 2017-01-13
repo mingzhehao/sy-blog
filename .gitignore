@@ -3,5 +3,5 @@
 *.iml
 .idea
 *.swap
-beego-blog
+scloud
 /static/uploads
