@@ -1,20 +1,40 @@
-<div id="collections">
-        {{range .Catalogs}}
-        <div class="collection-card" itemscope="" itemtype="http://schema.org/CollectionPage">
-            <a style="border-top:1px solid #eee;border-bottom:1px solid #eee;" href="/catalog/{{.Ident}}"><img class="cover" src="{{.ImgUrl}}" alt="{{.Name}}"></a>
-            <div class="card-info">
-                <a href="/catalog/{{.Ident}}"><h3 class="collection-name">{{.Name}}</h3></a>
+<div class="col-md-9 col-sm-8">
+    <div id="collections">
+            {{range .Catalogs}}
+            <div class="collection-card" itemscope="" itemtype="http://schema.org/CollectionPage">
+                <a style="border-top:1px solid #eee;border-bottom:1px solid #eee;" href="/catalog/{{.Ident}}"><img class="cover" src="{{.ImgUrl}}" alt="{{.Name}}"></a>
+                <div class="card-info">
+                    <a href="/catalog/{{.Ident}}"><h3 class="collection-name">{{.Name}}</h3></a>
 
-                <p class="description">
-                    {{.Resume}}
-                    {{if $.IsAdmin}}
-                    <div>
-                    (<a style="display:inline;" href="/me/catalog/edit?id={{.Id}}">Edit</a><span class="cut-line">|</span><a style="display:inline;" href="/me/catalog/del?id={{.Id}}">Del</a>)
-                    </div>
-                    {{end}}
-                </p>
+                    <p class="description">
+                        {{.Resume}}
+                        {{if $.IsAdmin}}
+                        <div>
+                        (<a style="display:inline;" href="/me/catalog/edit?id={{.Id}}">Edit</a><span class="cut-line">|</span><a style="display:inline;" href="/me/catalog/del?id={{.Id}}">Del</a>)
+                        </div>
+                        {{end}}
+                    </p>
+                </div>
+                
             </div>
-            
+            {{end}}
+    </div>
+</div>
+
+<div class="col-md-3 col-sm-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">热门标签</div>
+        <div class="panel-body">
+            <ul class="tag-list">
+                <li><span class="label label-default"><a href="/music/index?tag=hero">hero</a></span></li>
+                <li><span class="label label-warning"><a href="/music/index?tag=run+away">run away</a></span></li>
+                <li><span class="label label-primary"><a href="/music/index?tag=%E6%97%B6%E9%97%B4%E8%BD%B4">时间轴</a></span></li>
+                <li><span class="label label-default"><a href="/music/index?tag=%E6%B5%81%E5%B9%B4">流年</a></span></li>
+                <li><span class="label label-primary"><a href="/music/index?tag=%E8%81%86%E5%90%AC%E4%B8%96%E7%95%8C%E7%9A%84%E5%A3%B0%E9%9F%B3">聆听世界的声音</a></span></li>
+                <li><span class="label label-default"><a href="/music/index?tag=%E8%89%BE%E6%96%AF">艾斯</a></span></li>
+                <li><span class="label label-default"><a href="/music/index?tag=%E8%BF%99%E6%98%AF%E4%B8%80%E9%A6%96%E6%AD%8C">这是一首歌</a></span>
+                </li>                    
+            </ul>   
         </div>
-        {{end}}
+    </div>
 </div>

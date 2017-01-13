@@ -20,8 +20,9 @@ func (this *MainController) ArticleList() {
 		currPage = 1
 	}
 	limit := 10
-	this.Data["Catalogs"], _, _ = blog.GetBlogs(currPage, limit)
-	beego.Notice(this.Data["Catalogs"])
+	this.Data["Articles"], _, _ = blog.GetArticles(currPage, limit)
+	this.Data["HotArticles"], _, _ = blog.GetHotArticles()
+	beego.Notice(this.Data["Articles"])
 	this.Data["PageTitle"] = "首页"
 	this.Data["Active"] = "list"
 	this.Layout = "layout/default.html"

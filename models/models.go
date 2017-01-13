@@ -18,18 +18,19 @@ type Catalog struct {
 }
 
 type Blog struct {
-	Id                    int64
-	Ident                 string `orm:"unique"`
-	Title                 string
-	Keywords              string       `orm:"null"`
-	CatalogId             int64        `orm:"index"`
-	Content               *BlogContent `orm:"-"`
-	BlogContentId         int64        `orm:"unique"`
-	BlogContentLastUpdate int64
-	Type                  int8 /*0:original, 1:translate, 2:reprint*/
-	Status                int8 /*0:draft, 1:release*/
-	Views                 int64
-	Created               time.Time `orm:"auto_now_add;type(datetime)"`
+	Id            int64
+	Ident         string `orm:"unique"`
+	Title         string
+	Keywords      string       `orm:"null"`
+	CatalogId     int64        `orm:"index"`
+	Content       *BlogContent `orm:"-"`
+	BlogContentId int64        `orm:"unique"`
+	Type          int8         /*0:original, 1:translate, 2:reprint*/
+	Up            int64
+	Status        int8 /*0:draft, 1:release*/
+	Views         int64
+	Created       time.Time `orm:"auto_now_add;type(datetime)"`
+	Updated       time.Time `orm:"type(datetime)"`
 }
 
 type BlogContent struct {

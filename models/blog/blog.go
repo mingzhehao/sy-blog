@@ -8,9 +8,18 @@ import (
 	"time"
 )
 
-func GetBlogs(currPage, pageSize int) ([]*Blog, int64, error) {
+func GetArticles(currPage, pageSize int) ([]*Blog, int64, error) {
 	dbRecs := make([]*Blog, 0)
 	total, err := Blogs().OrderBy("-created").Limit(pageSize, (currPage-1)*pageSize).All(&dbRecs)
+	if err != nil {
+		return nil, 0, err
+	}
+	return dbRecs, total, err
+}
+
+func GetHotArticles() ([]*Blog, int64, error) {
+	dbRecs := make([]*Blog, 0)
+	total, err := Blogs().OrderBy("-views").Limit(10).All(&dbRecs)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -115,7 +124,7 @@ func ReadBlogContent(b *Blog) *BlogContent {
 		return nil
 	}
 
-	key := fmt.Sprintf("content_of_%d_%d", b.Id, b.BlogContentLastUpdate)
+	key := fmt.Sprintf("content_of_%d_%d", b.Id, b.Updated)
 	val := g.BlogCacheGet(key)
 	if val == nil {
 		if p := readBlogContentInDB(b); p != nil {
@@ -194,7 +203,8 @@ func Save(this *Blog, blogContent string) (int64, error) {
 	}
 
 	this.BlogContentId = blogContentId
-	this.BlogContentLastUpdate = time.Now().Unix()
+	stringTime := time.Now().Format("2006-01-02 15:04:05")
+	this.Updated, _ = time.Parse("2006-01-02 15:04:05", stringTime)
 
 	id, err := or.Insert(this)
 	if err == nil {
@@ -230,7 +240,8 @@ func Update(b *Blog, content string) error {
 		if e != nil {
 			return e
 		}
-		b.BlogContentLastUpdate = time.Now().Unix()
+		stringTime := time.Now().Format("2006-01-02 15:04:05")
+		b.Updated, _ = time.Parse("2006-01-02 15:04:05", stringTime)
 	}
 
 	_, err := orm.NewOrm().Update(b)

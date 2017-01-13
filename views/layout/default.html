@@ -7,33 +7,19 @@
     <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/static/css/g.css"/>
     <link rel="shortcut icon" href="/static/favicon.ico">
-    <style type="text/css">
-        .container{width:980px;max-width:980px;margin:0 auto;zoom:1}
-    </style>
 </head>
 <body>
     {{template "menu" .}}
 
     <div class="container">
-        <div class="row" style="margin-left:15px;margin-right:15px;">
+        <div class="row" >
             {{.LayoutContent}}
         </div>
     </div>
 
 <div class="clear"></div>
-<footer class="mt20">
-    <div class="container">
-        <div class="row" style="margin-left:15px;margin-right:15px;">
-            <div class="site-source">
-                <a href="/">Beego-Blog</a> is open source on <a href="https://github.com/UlricQin/beego-blog" target="_blank">GitHub</a>.<br />
-                Patches, suggestions, and comments are welcome.
-            </div>
-            <div class="sfc-member">
-                Powered by <a href="https://twitter.com/UlricQin" target="_blank">Mingzhehao</a>
-            </div>
-        </div>
-    </div>
-</footer>
+
+    {{template "footer" .}}
 
 </body>
 </html>

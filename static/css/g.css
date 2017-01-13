@@ -107,6 +107,7 @@ footer .site-source {
 background: url("/static/images/code.png") no-repeat scroll 0 2px transparent;
 float: left;
 padding-left: 46px;
+height:25px;
 }
 footer .sfc-member {float: right;text-align: right;}
 footer a {color: #403F3C;}
@@ -116,4 +117,124 @@ footer a {color: #403F3C;}
     background-repeat: repeat-x;
     border-radius: 4px;
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075);
+}
+
+
+/***
+ * 文章样式
+ */
+.media-list {
+    list-style: outside none none;
+    padding-left: 0;
+}
+.media-list > .media {
+    border-bottom: 1px solid #eee;
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+.media > .pull-left {
+    margin-right: 10px;
+}
+.pull-left {
+    float: left !important;
+}
+.media > .pull-right {
+    margin-left: 10px;
+}
+.pull-right {
+    float: right !important;
+}
+.media-list .media-action {
+    color: #999;
+    font-size: 12px;
+    margin-top: 10px;
+}
+a.comments, a.answers, a.replies, a.views {
+    background: #ccc none repeat scroll 0 0;
+    color: #f5f5f5;
+    display: inline-block;
+    font-size: 12px;
+    height: 52px;
+    line-height: 1.8em;
+    margin-left: 10px;
+    text-align: center;
+    text-decoration: none;
+    width: 50px;
+}
+a.comments em, a.answers em, a.replies em, a.views em {
+    background: #f5f5f5 none repeat scroll 0 0;
+    color: #999;
+    display: block;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 2.1em;
+}
+.media-object, .media-user .media-object {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    height: 48px;
+    padding: 2px;
+    width: 48px;
+}
+.media, .media-body {
+    overflow: hidden;
+}
+.media-list > .media > .media-body > h2.media-heading {
+    font-size: 16px;
+    margin: 8px 0;
+}
+.media-heading {
+    color: #999;
+}
+.media-heading {
+    margin: 0 0 5px;
+}
+.media-object, .avatar-list img, .avatar-big, .avatar-middle, .avatar-small, .online img, .top img {
+    background: #fff none repeat scroll 0 0;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    padding: 2px;
+}
+.media-action a {
+    color: #999;
+}
+a {
+    color: #428bca;
+    text-decoration: none;
+}
+.panel-body {
+    padding: 15px;
+}
+.panel-body ul {
+    margin-bottom: 0;
+}
+.list {
+    padding: 0;
+}
+.list li {
+    border-bottom: 1px dashed #ddd;
+    line-height: 2.2em;
+    list-style: outside none none;
+}
+.tag-list {
+    padding: 0;
+}
+.tag-list li {
+    float: left;
+    list-style: outside none none;
+    margin: 5px;
+}
+.tag-list li .label {
+    margin-left: 0;
+}
+.tag-list .label {
+    font-size: 12px;
+    font-weight: normal;
+    margin-left: 10px;
+}
+.tag-list .label a {
+    color: #fff;
+    text-decoration: none;
 }
