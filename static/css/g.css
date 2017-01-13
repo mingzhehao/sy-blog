@@ -110,7 +110,7 @@ padding-left: 46px;
 height:25px;
 }
 footer .sfc-member {float: right;text-align: right;}
-footer a {color: #403F3C;}
+footer .sfc-member a {color: #428bca;}
 
 .navbar-default {
     background-image: linear-gradient(to bottom, #fff 0px, #f8f8f8 100%);
