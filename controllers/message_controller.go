@@ -13,6 +13,7 @@ type MessageController struct {
 }
 
 func (this *MessageController) MessageList() {
+	this.EnableXSRF = true
 	var messages []*models.Message
 	page, _ := this.GetInt("p")
 	if page == 0 {
@@ -31,6 +32,7 @@ func (this *MessageController) MessageList() {
 }
 
 func (this *MessageController) AjaxAdd() {
+	this.EnableXSRF = true
 	startTime := time.Now()
 	if this.Ctx.Input.Method() != "POST" {
 		this.Data["json"] = JsonFormat(101, "miss params", "", startTime)

@@ -3,7 +3,7 @@
     <div class="media-list">
         <li class="media" >
         <a class="pull-left" href="/user/{{.Uid}}" data-original-title="" title="">
-                <img class="media-object" style="width:48px;height:48px;" src="/static/images/portrait.jpg" alt="">
+            <img class="media-object" style="width:48px;height:48px;" src="/static/images/userImage/{{.Id | getUserImage}}" alt="">
             </a>
             <div class="pull-right">
                 <a class="views" href="/message/{{.Id}}">浏览<em>{{.Id}}</em></a>
