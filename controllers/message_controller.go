@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/mingzhehao/scloud/models"
 	"html/template"
+	"strconv"
 	"time"
 )
 
@@ -13,7 +14,15 @@ type MessageController struct {
 
 func (this *MessageController) MessageList() {
 	var messages []*models.Message
-	messages, _, _ = models.GetMessages(1, 10)
+	page, _ := this.GetInt("p")
+	if page == 0 {
+		page = 1
+	}
+	pageSize, _ := strconv.Atoi(beego.AppConfig.String("pageSize"))
+	total, _ := models.GetMessageCount()
+	messages, _, _ = models.GetMessages(page, pageSize)
+	beego.Notice(total)
+	this.SetPaginator(pageSize, total)
 	this.Data["Messages"] = messages
 	this.Data["Active"] = "message"
 	this.Data["xsrfdata"] = template.HTML(this.XSRFFormHTML())
