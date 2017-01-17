@@ -2,17 +2,16 @@
     {{range .Messages}}
     <div class="media-list">
         <li class="media" >
-        <a class="pull-left" href="/user/{{.Uid}}" data-original-title="" title="">
+        <a class="pull-left" href="javascript:;" data-original-title="" title="">
             <img class="media-object" style="width:48px;height:48px;" src="/static/images/userImage/{{.Id | getUserImage}}" alt="">
             </a>
             <div class="pull-right">
-                <a class="views" href="/message/{{.Id}}">浏览<em>{{.Id}}</em></a>
-                <a class="answers" href="/message/{{.Id}}">回答<em>1</em></a>
+                <a class="answers" href="javascript:;">查看<em>1</em></a>
             </div>
             <div class="media-body">
                 <h2 class="media-heading">
                     <span class="glyphicon glyphicon-question-sign"></span> 
-                    <a href="/message/{{.Id}}">{{.Content}}</a>
+                    <a href="javascript:;">{{.Content}}</a>
                 </h2>
                 <div class="media-action">
                     <a href="/user/{{.Uid}}">kladmin</a> 发布于 {{.Created_at}}<span class="dot"> • </span>
