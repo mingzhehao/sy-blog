@@ -25,4 +25,7 @@ func init() {
 	beego.Router("/me/article/edit", &controllers.ArticleController{}, "get:Edit;post:DoEdit")
 	beego.Router("/me/article/del", &controllers.ArticleController{}, "get:Del")
 	beego.Router("/me/article/draft", &controllers.ArticleController{}, "get:Draft")
+
+	beego.Router("/message", &controllers.MessageController{}, "get:MessageList")
+	beego.Router("/message/add", &controllers.MessageController{}, "post:AjaxAdd")
 }
