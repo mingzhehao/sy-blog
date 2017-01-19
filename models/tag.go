@@ -3,7 +3,6 @@ package models
 import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
-	"strconv"
 	"time"
 )
 
@@ -34,17 +33,29 @@ func GetTags(currPage, pageSize int) ([]*Tag, int64, error) {
 	return tags, total, err
 }
 
-func DeleteTag(id string) error {
+func DeleteTag(id int64, tagName string) error {
+	c := Tag{Name: tagName}
 	o := orm.NewOrm()
-	aid, err := strconv.ParseInt(id, 10, 64)
-	tag := &Tag{
-		Id: aid,
-	}
-	_, err = o.Delete(tag)
-	if err != nil {
+	err := o.Read(&c, "Name")
+	// SELECT `id`, `bid`, `name`, `count`, `created_at` FROM `bb_tag` WHERE `name` = ?] - `test`
+	if err == orm.ErrNoRows {
+		return nil
+	} else if c.Count == 1 {
+		tag := &Tag{
+			Id: c.Id,
+		}
+		_, err = o.Delete(tag)
+		if err != nil {
+			return err
+		}
+		return nil
+	} else {
+		count := c.Count - int64(1)
+		tagInfo := Tag{Count: count}
+		_, err := o.Update(tagInfo)
 		return err
 	}
-	return nil
+
 }
 
 func InsertTag(bid int64, tagName string) error {
@@ -66,7 +77,8 @@ func InsertTag(bid int64, tagName string) error {
 		fmt.Println(err)
 		return err
 	} else {
-		tagInfo := Tag{Count: c.Count + int64(1)}
+		count := c.Count + int64(1)
+		tagInfo := Tag{Count: count}
 		_, err := orm.NewOrm().Update(tagInfo)
 		fmt.Println(err)
 		return err
