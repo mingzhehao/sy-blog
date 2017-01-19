@@ -1,9 +1,11 @@
 package controllers
 
 import (
+	"github.com/astaxie/beego"
 	"github.com/mingzhehao/scloud/models"
 	"github.com/mingzhehao/scloud/models/blog"
 	"github.com/mingzhehao/scloud/models/catalog"
+	"strings"
 )
 
 type ArticleController struct {
@@ -54,7 +56,13 @@ func (this *ArticleController) DoAdd() {
 	}
 
 	b := &models.Blog{Ident: ident, Title: title, Keywords: keywords, CatalogId: int64(catalog_id), Type: int8(aType), Status: int8(status)}
-	_, err := blog.Save(b, content)
+	blogId, err := blog.Save(b, content)
+
+	keyWords := strings.Split(keywords, ",")
+	for _, tag := range keyWords {
+		tag = strings.Trim(tag, " ")
+		models.InsertTag(blogId, tag)
+	}
 
 	if err != nil {
 		this.Ctx.WriteString(err.Error())
@@ -117,6 +125,7 @@ func (this *ArticleController) DoEdit() {
 		this.Ctx.WriteString("title or ident is blank")
 		return
 	}
+	oldKeyWordsString := b.Keywords
 
 	cp := catalog.OneById(int64(catalog_id))
 	if cp == nil {
@@ -137,6 +146,42 @@ func (this *ArticleController) DoEdit() {
 		this.Ctx.WriteString(err.Error())
 		return
 	}
+	/*******************************************/
+	/**
+	 * 标签替换处理
+	 */
+	var deleteKeyWords []string
+	var addKeyWords []string
+	oldKeyWords := strings.Split(oldKeyWordsString, ",")
+	newKeyWords := strings.Split(keywords, ",")
+	for _, oldWords := range oldKeyWords {
+		//新数据包含老数据，说明无需处理
+		//不包含，说明已删除
+		if res := strings.Contains(keywords, oldWords); !res {
+			deleteKeyWords = append(deleteKeyWords, oldWords)
+		}
+	}
+	for _, newWords := range newKeyWords {
+		if res := strings.Contains(oldKeyWordsString, newWords); !res {
+			addKeyWords = append(addKeyWords, newWords)
+		}
+	}
+	beego.Notice(addKeyWords)
+	beego.Notice(deleteKeyWords)
+	if len(addKeyWords) != 0 {
+		for _, addTagString := range addKeyWords {
+			addTagString = strings.Trim(addTagString, " ")
+			models.InsertTag(b.Id, addTagString)
+		}
+	}
+	if len(deleteKeyWords) != 0 {
+		for _, deleteTagString := range deleteKeyWords {
+			deleteTagString = strings.Trim(deleteTagString, " ")
+			models.DeleteTag(b.Id, deleteTagString)
+		}
+	}
+
+	/*******************************************/
 
 	this.JsStorage("deleteKey", "post/edit")
 	this.Redirect("/catalog/"+cp.Ident, 302)
