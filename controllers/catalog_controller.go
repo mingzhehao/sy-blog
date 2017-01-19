@@ -3,9 +3,8 @@ package controllers
 import (
 	"fmt"
 	//"github.com/mingzhehao/scloud/g"
-	"github.com/mingzhehao/scloud/models"
-	"github.com/mingzhehao/scloud/models/catalog"
 	"github.com/mingzhehao/goutils/filetool"
+	"github.com/mingzhehao/scloud/models"
 	"time"
 )
 
@@ -31,7 +30,7 @@ func (this *CatalogController) Edit() {
 		return
 	}
 
-	c := catalog.OneById(int64(id))
+	c := models.GetCatalogById(int64(id))
 	if c == nil {
 		this.Ctx.WriteString(fmt.Sprintf("no such catalog_id:%d", id))
 		return
@@ -50,13 +49,13 @@ func (this *CatalogController) Del() {
 		return
 	}
 
-	c := catalog.OneById(int64(id))
+	c := models.GetCatalogById(int64(id))
 	if c == nil {
 		this.Ctx.WriteString(fmt.Sprintf("no such catalog_id:%d", id))
 		return
 	}
 
-	err = catalog.Del(c)
+	err = models.DelCatalog(c)
 	if err != nil {
 		this.Ctx.WriteString(err.Error())
 		return
@@ -121,7 +120,7 @@ func (this *CatalogController) DoEdit() {
 		return
 	}
 
-	old := catalog.OneById(int64(cid))
+	old := models.GetCatalogById(int64(cid))
 	if old == nil {
 		this.Ctx.WriteString(fmt.Sprintf("no such catalog_id: %d", cid))
 		return
@@ -142,7 +141,7 @@ func (this *CatalogController) DoEdit() {
 		old.ImgUrl = o.ImgUrl
 	}
 
-	if err = catalog.Update(old); err != nil {
+	if err = models.UpdateCatalog(old); err != nil {
 		this.Ctx.WriteString(err.Error())
 		return
 	}
@@ -158,7 +157,7 @@ func (this *CatalogController) DoAdd() {
 		return
 	}
 
-	_, err = catalog.Save(o)
+	_, err = models.SaveCatalog(o)
 	if err != nil {
 		this.Ctx.WriteString(err.Error())
 		return

@@ -4,7 +4,6 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/mingzhehao/scloud/g"
 	"github.com/mingzhehao/scloud/models"
-	"github.com/mingzhehao/scloud/models/catalog"
 	"strconv"
 )
 
@@ -37,7 +36,12 @@ func (this *MainController) ArticleList() {
  * 获取目录列表
  */
 func (this *MainController) CatalogList() {
-	this.Data["Catalogs"] = catalog.All()
+	currPage, _ := this.GetInt("p")
+	if currPage == 0 {
+		currPage = 1
+	}
+	pageSize, _ := strconv.Atoi(beego.AppConfig.String("pageSize"))
+	this.Data["Catalogs"], _, _ = models.GetCatalogs(currPage, pageSize)
 	this.Data["PageTitle"] = "首页"
 	this.Data["Active"] = "catalog"
 	this.Layout = "layout/default.html"
@@ -46,7 +50,7 @@ func (this *MainController) CatalogList() {
 
 func (this *MainController) Read() {
 	ident := this.GetString(":ident")
-	b := models.GetOneByIdent(ident)
+	b := models.GetArticleByIdent(ident)
 	if b == nil {
 		this.Ctx.WriteString("no such article")
 		return
@@ -58,7 +62,7 @@ func (this *MainController) Read() {
 	this.Data["Blog"] = b
 	this.Data["Content"] = g.RenderMarkdown(models.ReadBlogContent(b).Content)
 	this.Data["PageTitle"] = b.Title
-	this.Data["Catalog"] = catalog.OneById(b.CatalogId)
+	this.Data["Catalog"] = models.GetCatalogById(b.CatalogId)
 	this.Data["Active"] = "list"
 	this.Layout = "layout/default.html"
 	this.TplName = "article/read.html"
@@ -73,15 +77,15 @@ func (this *MainController) ListByCatalog() {
 
 	limit := this.GetIntWithDefault("limit", 10)
 
-	c := catalog.OneByIdent(cata)
+	c := models.GetCatalogByIdent(cata)
 	if c == nil {
 		this.Ctx.WriteString("catalog:" + cata + " not found")
 		return
 	}
 
-	ids := models.GetIds(c.Id)
+	ids := models.GetArticleIds(c.Id)
 	pager := this.SetPaginator(limit, int64(len(ids)))
-	articles := models.ByCatalog(c.Id, pager.Offset(), limit)
+	articles := models.GetArticlesByCatalog(c.Id, pager.Offset(), limit)
 
 	this.Data["Catalog"] = c
 	this.Data["Blogs"] = articles

@@ -7,7 +7,7 @@
     <div class="entry-views">{{.Views}}</div>
 
     <div class="entry-meta">
-      <span>发表于：{{dateformat .Created "2006-01-02 15:04:05"}}</span>
+      <span>发表于：{{dateformat .Created_at "2006-01-02 15:04:05"}}</span>
       {{if $.IsAdmin}}
       (<a href="/me/article/edit?id={{.Id}}">Edit</a>
       <span class="cut-line">|</span>

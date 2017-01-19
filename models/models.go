@@ -29,8 +29,8 @@ type Blog struct {
 	Up            int64
 	Status        int8 /*0:draft, 1:release*/
 	Views         int64
-	Created       time.Time `orm:"auto_now_add;type(datetime)"`
-	Updated       time.Time `orm:"type(datetime)"`
+	Created_at    time.Time `orm:"auto_now_add;type(datetime)"`
+	Updated_at    time.Time `orm:"type(datetime)"`
 }
 
 type BlogContent struct {

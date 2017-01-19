@@ -14,7 +14,7 @@ img{border-radius: 4px;}
     <div class="entry-meta">
       <span><a style="color:#ccc;text-decoration: underline;" href="/catalog/{{.Catalog.Ident}}">{{.Catalog.Name}}</a></span>
       <span class="dot">·</span>
-      <span>{{dateformat .Blog.Created "2006-01-02 15:04:05"}}</span>
+      <span>{{dateformat .Blog.Created_at "2006-01-02 15:04:05"}}</span>
     </div>
     <div class="entry-snippet markdown">{{str2html .Content}}</div>
   </div>

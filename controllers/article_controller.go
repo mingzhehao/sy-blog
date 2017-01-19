@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"github.com/mingzhehao/scloud/models"
-	"github.com/mingzhehao/scloud/models/catalog"
+	"strconv"
 	"strings"
 )
 
@@ -21,7 +21,12 @@ func (this *ArticleController) Draft() {
 }
 
 func (this *ArticleController) Add() {
-	this.Data["Catalogs"] = catalog.All()
+	currPage, _ := this.GetInt("p")
+	if currPage == 0 {
+		currPage = 1
+	}
+	pageSize, _ := strconv.Atoi(beego.AppConfig.String("pageSize"))
+	this.Data["Catalogs"], _, _ = models.GetCatalogs(currPage, pageSize)
 	this.Data["IsPost"] = true
 	this.Data["Active"] = "me"
 	this.Layout = "layout/admin.html"
@@ -48,7 +53,7 @@ func (this *ArticleController) DoAdd() {
 		return
 	}
 
-	cp := catalog.OneById(int64(catalog_id))
+	cp := models.GetCatalogById(int64(catalog_id))
 	if cp == nil {
 		this.Ctx.WriteString("catalog_id not exists")
 		return
@@ -80,15 +85,20 @@ func (this *ArticleController) Edit() {
 		return
 	}
 
-	b := models.GetOneById(int64(id))
+	b := models.GetArticleById(int64(id))
 	if b == nil {
 		this.Ctx.WriteString("no such article")
 		return
 	}
 
+	currPage, _ := this.GetInt("p")
+	if currPage == 0 {
+		currPage = 1
+	}
+	pageSize, _ := strconv.Atoi(beego.AppConfig.String("pageSize"))
 	this.Data["Content"] = models.ReadBlogContent(b).Content
 	this.Data["Blog"] = b
-	this.Data["Catalogs"] = catalog.All()
+	this.Data["Catalogs"], _, _ = models.GetCatalogs(currPage, pageSize)
 	this.Data["Active"] = "me"
 	this.Layout = "layout/admin.html"
 	this.TplName = "article/edit.html"
@@ -101,7 +111,7 @@ func (this *ArticleController) DoEdit() {
 		return
 	}
 
-	b := models.GetOneById(int64(id))
+	b := models.GetArticleById(int64(id))
 	if b == nil {
 		this.Ctx.WriteString("no such article")
 		return
@@ -126,7 +136,7 @@ func (this *ArticleController) DoEdit() {
 	}
 	oldKeyWordsString := b.Keywords
 
-	cp := catalog.OneById(int64(catalog_id))
+	cp := models.GetCatalogById(int64(catalog_id))
 	if cp == nil {
 		this.Ctx.WriteString("catalog_id not exists")
 		return
@@ -193,7 +203,7 @@ func (this *ArticleController) Del() {
 		return
 	}
 
-	b := models.GetOneById(int64(id))
+	b := models.GetArticleById(int64(id))
 	if b == nil {
 		this.Ctx.WriteString("no such article")
 		return

@@ -2,10 +2,9 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/mingzhehao/scloud/g"
-	"github.com/mingzhehao/scloud/models/catalog"
 	"github.com/mingzhehao/goutils/filetool"
 	"github.com/mingzhehao/goutils/strtool"
+	"github.com/mingzhehao/scloud/g"
 	"strings"
 	"time"
 )
@@ -19,7 +18,6 @@ type ApiController struct {
 }
 
 func (this *ApiController) Health() {
-	fmt.Println(catalog.All()[0])
 	this.Ctx.WriteString("ok")
 }
 

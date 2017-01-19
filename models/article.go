@@ -15,7 +15,7 @@ func GetArticleCount() (int64, error) {
 
 func GetArticles(currPage, pageSize int) ([]*Blog, int64, error) {
 	dbRecs := make([]*Blog, 0)
-	total, err := Blogs().OrderBy("-created").Limit(pageSize, (currPage-1)*pageSize).All(&dbRecs)
+	total, err := Blogs().OrderBy("-Created_at").Limit(pageSize, (currPage-1)*pageSize).All(&dbRecs)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -31,7 +31,7 @@ func GetHotArticles() ([]*Blog, int64, error) {
 	return dbRecs, total, err
 }
 
-func GetOneById(id int64) *Blog {
+func GetArticleById(id int64) *Blog {
 	if id <= 0 {
 		return nil
 	}
@@ -43,7 +43,7 @@ func GetOneById(id int64) *Blog {
 	return &o
 }
 
-func GetOneByIdent(ident string) *Blog {
+func GetArticleByIdent(ident string) *Blog {
 	if ident == "" {
 		return nil
 	}
@@ -55,7 +55,7 @@ func GetOneByIdent(ident string) *Blog {
 	return &c
 }
 
-func GetIdByIdent(ident string) int64 {
+func GetArticleIdByIdent(ident string) int64 {
 	if ident == "" {
 		return 0
 	}
@@ -69,17 +69,17 @@ func GetIdByIdent(ident string) int64 {
 }
 
 func CheckIdentExists(ident string) bool {
-	id := GetIdByIdent(ident)
+	id := GetArticleIdByIdent(ident)
 	return id > 0
 }
 
-func GetIds(catalog_id int64) []int64 {
+func GetArticleIds(catalog_id int64) []int64 {
 	if catalog_id <= 0 {
 		return []int64{}
 	}
 
 	var blogs []Blog
-	Blogs().Filter("CatalogId", catalog_id).Filter("Status", 1).OrderBy("-Created").All(&blogs, "Id")
+	Blogs().Filter("CatalogId", catalog_id).Filter("Status", 1).OrderBy("-Created_at").All(&blogs, "Id")
 	size := len(blogs)
 	if size == 0 {
 		return []int64{}
@@ -98,7 +98,7 @@ func ReadBlogContent(b *Blog) *BlogContent {
 		return nil
 	}
 
-	key := fmt.Sprintf("content_of_%d_%d", b.Id, b.Updated)
+	key := fmt.Sprintf("content_of_%d_%d", b.Id, b.Updated_at)
 	val := g.BlogCacheGet(key)
 	if val == nil {
 		if p := readBlogContentInDB(b); p != nil {
@@ -120,8 +120,8 @@ func readBlogContentInDB(b *Blog) *BlogContent {
 	return &o
 }
 
-func ByCatalog(catalog_id int64, offset, limit int) []*Blog {
-	ids := GetIds(catalog_id)
+func GetArticlesByCatalog(catalog_id int64, offset, limit int) []*Blog {
+	ids := GetArticleIds(catalog_id)
 	size := len(ids)
 	if size == 0 {
 		return []*Blog{}
@@ -139,7 +139,7 @@ func ByCatalog(catalog_id int64, offset, limit int) []*Blog {
 	size = len(ids)
 	ret := make([]*Blog, size)
 	for i := 0; i < size; i++ {
-		ret[i] = GetOneById(ids[i])
+		ret[i] = GetArticleById(ids[i])
 		ret[i].Content = ReadBlogContent(ret[i])
 	}
 	return ret
@@ -159,7 +159,7 @@ func SaveArticles(this *Blog, blogContent string) (int64, error) {
 
 	this.BlogContentId = blogContentId
 	stringTime := time.Now().Format("2006-01-02 15:04:05")
-	this.Updated, _ = time.Parse("2006-01-02 15:04:05", stringTime)
+	this.Updated_at, _ = time.Parse("2006-01-02 15:04:05", stringTime)
 
 	id, err := or.Insert(this)
 	if err == nil {
@@ -196,7 +196,7 @@ func UpdateArticles(b *Blog, content string) error {
 			return e
 		}
 		stringTime := time.Now().Format("2006-01-02 15:04:05")
-		b.Updated, _ = time.Parse("2006-01-02 15:04:05", stringTime)
+		b.Updated_at, _ = time.Parse("2006-01-02 15:04:05", stringTime)
 	}
 
 	_, err := orm.NewOrm().Update(b)
