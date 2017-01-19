@@ -3,8 +3,9 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"github.com/mingzhehao/scloud/g"
-	"github.com/mingzhehao/scloud/models/blog"
+	"github.com/mingzhehao/scloud/models"
 	"github.com/mingzhehao/scloud/models/catalog"
+	"strconv"
 )
 
 type MainController struct {
@@ -15,13 +16,16 @@ type MainController struct {
  * 获取文章列表
  */
 func (this *MainController) ArticleList() {
-	currPage, _ := this.GetInt("page")
+	currPage, _ := this.GetInt("p")
 	if currPage == 0 {
 		currPage = 1
 	}
-	limit := 10
-	this.Data["Articles"], _, _ = blog.GetArticles(currPage, limit)
-	this.Data["HotArticles"], _, _ = blog.GetHotArticles()
+	pageSize, _ := strconv.Atoi(beego.AppConfig.String("pageSize"))
+	total, _ := models.GetArticleCount()
+	this.Data["Articles"], _, _ = models.GetArticles(currPage, pageSize)
+	this.Data["HotArticles"], _, _ = models.GetHotArticles()
+	this.SetPaginator(pageSize, total)
+	beego.Notice(total)
 	beego.Notice(this.Data["Articles"])
 	this.Data["PageTitle"] = "首页"
 	this.Data["Active"] = "list"
@@ -42,17 +46,17 @@ func (this *MainController) CatalogList() {
 
 func (this *MainController) Read() {
 	ident := this.GetString(":ident")
-	b := blog.OneByIdent(ident)
+	b := models.GetOneByIdent(ident)
 	if b == nil {
 		this.Ctx.WriteString("no such article")
 		return
 	}
 
 	b.Views = b.Views + 1
-	blog.Update(b, "")
+	models.UpdateArticles(b, "")
 
 	this.Data["Blog"] = b
-	this.Data["Content"] = g.RenderMarkdown(blog.ReadBlogContent(b).Content)
+	this.Data["Content"] = g.RenderMarkdown(models.ReadBlogContent(b).Content)
 	this.Data["PageTitle"] = b.Title
 	this.Data["Catalog"] = catalog.OneById(b.CatalogId)
 	this.Data["Active"] = "list"
@@ -75,12 +79,12 @@ func (this *MainController) ListByCatalog() {
 		return
 	}
 
-	ids := blog.Ids(c.Id)
+	ids := models.GetIds(c.Id)
 	pager := this.SetPaginator(limit, int64(len(ids)))
-	blogs := blog.ByCatalog(c.Id, pager.Offset(), limit)
+	articles := models.ByCatalog(c.Id, pager.Offset(), limit)
 
 	this.Data["Catalog"] = c
-	this.Data["Blogs"] = blogs
+	this.Data["Blogs"] = articles
 	this.Data["PageTitle"] = c.Name
 	this.Data["Active"] = "list"
 

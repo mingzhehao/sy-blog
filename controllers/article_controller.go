@@ -3,7 +3,6 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"github.com/mingzhehao/scloud/models"
-	"github.com/mingzhehao/scloud/models/blog"
 	"github.com/mingzhehao/scloud/models/catalog"
 	"strings"
 )
@@ -13,9 +12,9 @@ type ArticleController struct {
 }
 
 func (this *ArticleController) Draft() {
-	var blogs []*models.Blog
-	blog.Blogs().Filter("Status", 0).All(&blogs)
-	this.Data["Blogs"] = blogs
+	var articles []*models.Blog
+	models.Blogs().Filter("Status", 0).All(&articles)
+	this.Data["Blogs"] = articles
 	this.Data["Active"] = "me"
 	this.Layout = "layout/admin.html"
 	this.TplName = "article/draft.html"
@@ -56,7 +55,7 @@ func (this *ArticleController) DoAdd() {
 	}
 
 	b := &models.Blog{Ident: ident, Title: title, Keywords: keywords, CatalogId: int64(catalog_id), Type: int8(aType), Status: int8(status)}
-	blogId, err := blog.Save(b, content)
+	blogId, err := models.SaveArticles(b, content)
 
 	keyWords := strings.Split(keywords, ",")
 	for _, tag := range keyWords {
@@ -81,13 +80,13 @@ func (this *ArticleController) Edit() {
 		return
 	}
 
-	b := blog.OneById(int64(id))
+	b := models.GetOneById(int64(id))
 	if b == nil {
 		this.Ctx.WriteString("no such article")
 		return
 	}
 
-	this.Data["Content"] = blog.ReadBlogContent(b).Content
+	this.Data["Content"] = models.ReadBlogContent(b).Content
 	this.Data["Blog"] = b
 	this.Data["Catalogs"] = catalog.All()
 	this.Data["Active"] = "me"
@@ -102,7 +101,7 @@ func (this *ArticleController) DoEdit() {
 		return
 	}
 
-	b := blog.OneById(int64(id))
+	b := models.GetOneById(int64(id))
 	if b == nil {
 		this.Ctx.WriteString("no such article")
 		return
@@ -140,7 +139,7 @@ func (this *ArticleController) DoEdit() {
 	b.Type = int8(aType)
 	b.Status = int8(status)
 
-	err = blog.Update(b, content)
+	err = models.UpdateArticles(b, content)
 
 	if err != nil {
 		this.Ctx.WriteString(err.Error())
@@ -194,13 +193,13 @@ func (this *ArticleController) Del() {
 		return
 	}
 
-	b := blog.OneById(int64(id))
+	b := models.GetOneById(int64(id))
 	if b == nil {
 		this.Ctx.WriteString("no such article")
 		return
 	}
 
-	err = blog.Del(b)
+	err = models.DelArticles(b)
 	if err != nil {
 		this.Ctx.WriteString(err.Error())
 		return
