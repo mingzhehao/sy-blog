@@ -8,6 +8,12 @@ import (
 	"time"
 )
 
+func GetArticleCount() (int64, error) {
+	dbRecs := make([]*Blog, 0)
+	nums, err := Blogs().All(&dbRecs)
+	return nums, err
+}
+
 func GetArticles(currPage, pageSize int) ([]*Blog, int64, error) {
 	dbRecs := make([]*Blog, 0)
 	total, err := Blogs().OrderBy("-created").Limit(pageSize, (currPage-1)*pageSize).All(&dbRecs)
