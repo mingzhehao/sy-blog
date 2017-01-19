@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+var tablePrefix = "bb_"
+
 type Catalog struct {
 	Id           int64
 	Ident        string `orm:"unique"`
@@ -21,11 +23,11 @@ type Blog struct {
 	Id            int64
 	Ident         string `orm:"unique"`
 	Title         string
-	Keywords      string       `orm:"null"`
-	CatalogId     int64        `orm:"index"`
-	Content       *BlogContent `orm:"-"`
-	BlogContentId int64        `orm:"unique"`
-	Type          int8         /*0:original, 1:translate, 2:reprint*/
+	Keywords      string `orm:"null"`
+	CatalogId     int64  `orm:"index"`
+	Content       string `orm:"-"`
+	BlogContentId int64  `orm:"unique"`
+	Type          int8   /*0:original, 1:translate, 2:reprint*/
 	Up            int64
 	Status        int8 /*0:draft, 1:release*/
 	Views         int64
@@ -54,8 +56,12 @@ func engine() string {
 	return "INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci"
 }
 
+func GetTablePrefix() string {
+	return tablePrefix
+}
+
 func init() {
-	orm.RegisterModelWithPrefix("bb_", new(Catalog), new(Blog), new(BlogContent))
+	orm.RegisterModelWithPrefix(tablePrefix, new(Catalog), new(Blog), new(BlogContent))
 }
 
 // func main() {

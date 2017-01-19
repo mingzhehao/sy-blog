@@ -120,29 +120,35 @@ func readBlogContentInDB(b *Blog) *BlogContent {
 	return &o
 }
 
-func GetArticlesByCatalog(catalog_id int64, offset, limit int) []*Blog {
-	ids := GetArticleIds(catalog_id)
-	size := len(ids)
-	if size == 0 {
-		return []*Blog{}
-	}
+type CustomData struct {
+	Id         int64
+	Ident      string
+	Title      string
+	Content    string
+	Views      int64
+	Created_at time.Time
+}
 
-	if size > limit {
-		end := offset + limit
-		if end > size {
-			end = size
-		}
+func GetArticlesByCatalog(catalog_id int64, offset, limit int) []*CustomData {
+	// 构建查询对象
+	qb, _ := orm.NewQueryBuilder("mysql")
+	qb.Select("bb_blog.*",
+		"bb_blog_content.content ").
+		From("bb_blog").
+		InnerJoin("bb_blog_content").On("bb_blog.blog_content_id = bb_blog_content.id").
+		Where("catalog_id = ?").
+		OrderBy("created_at").Desc().
+		Limit(limit).Offset(offset)
 
-		ids = ids[offset:end]
-	}
+	// 导出SQL语句
+	sql := qb.String()
 
-	size = len(ids)
-	ret := make([]*Blog, size)
-	for i := 0; i < size; i++ {
-		ret[i] = GetArticleById(ids[i])
-		ret[i].Content = ReadBlogContent(ret[i])
-	}
-	return ret
+	// 执行SQL语句
+	o := orm.NewOrm()
+	dbRecs := make([]*CustomData, 0)
+	o.Raw(sql, catalog_id).QueryRows(&dbRecs)
+	fmt.Println(dbRecs)
+	return dbRecs
 }
 
 func SaveArticles(this *Blog, blogContent string) (int64, error) {

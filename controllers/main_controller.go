@@ -68,6 +68,9 @@ func (this *MainController) Read() {
 	this.TplName = "article/read.html"
 }
 
+/**
+ * 通过目录标识ident获取文章列表
+ */
 func (this *MainController) ListByCatalog() {
 	cata := this.Ctx.Input.Param(":ident")
 	if cata == "" {
