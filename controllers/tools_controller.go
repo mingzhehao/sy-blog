@@ -30,6 +30,7 @@ func (this *ToolsController) Read() {
 		return
 	}
 	this.Data["Active"] = "tools"
+	this.Data["LabelName"] = ident
 	this.Layout = "layout/main.html"
 	this.TplName = "tools/" + ident + ".html"
 }
