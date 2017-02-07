@@ -3,31 +3,16 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <ul class="nav navbar-nav">
-            {{ if eq .Active "catalog"}}
-                <li><a href="/">首页</a></li>
-                <li class="active"><a href="/catalog">目录</a></li>
-                <li><a href="/message">留言</a></li>
-                <li><a href="/me">个人中心</a></li>
-            {{else if eq .Active "me"}}
-                <li><a href="/">首页</a></li>
-                <li><a href="/catalog">目录</a></li>
-                <li><a href="/message">留言</a></li>
-                <li class="active"><a href="/me">个人中心</a></li>
-            {{else if eq .Active "message"}}
-                <li><a href="/">首页</a></li>
-                <li><a href="/catalog">目录</a></li>
-                <li class="active"><a href="/message">留言</a></li>
-                <li ><a href="/me">个人中心</a></li>
-            {{else}}
-                <li class="active"><a href="/">首页</a></li>
-                <li><a href="/catalog">目录</a></li>
-                <li><a href="/message">留言</a></li>
-                <li><a href="/me">个人中心</a></li>
-            {{end}}
-          </ul>
+            <li {{ if eq .Active "list" }} class="active" {{end}}><a href="/">首页</a></li>
+            <li {{ if eq .Active "catalog" }} class="active" {{end}}><a href="/catalog">目录</a></li>
+            <li {{ if eq .Active "message" }} class="active" {{end}}><a href="/message">留言</a></li>
+            <li {{ if eq .Active "me" }} class="active" {{end}}><a href="/me">个人中心</a></li>
+        </ul>
     </div>
 </nav>
+{{end}}
 
+{{define "introduce"}}
 <nav class="navbar">
     <div class="container">
             <div class="fr">

@@ -11,7 +11,7 @@ type ErrorController struct {
 func (this *ErrorController) Error404() {
 	this.Data["content"] = "page not found"
 	this.Data["Active"] = "error"
-	this.Layout = "layout/default.html"
+	this.Layout = "layout/error.html"
 	this.TplName = "error/404.tpl"
 }
 

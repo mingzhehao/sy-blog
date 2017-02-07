@@ -1,0 +1,165 @@
+@charset "utf-8";
+.scloudrun-con{
+    padding-top: 0;
+}
+.scloudrun-error{
+    color: #909090;
+    text-align: center;
+    width: 100%;
+    left: 0;
+    overflow: hidden;
+}
+.scloudrun-error .scloudrun-error-bg{
+    height: 372px;
+    position: relative;
+}
+.scloudrun-error .scloudrun-error-bg .scloudrun-error-img{
+    height: 100%;
+    background: url("http://r2.ykimg.com/0510000055C9AE1967BC3D7C830BD417?404_01.jpg") no-repeat top center;
+    background-size: auto 100%;
+    position: relative;
+    z-index: 2;
+}
+.scloudrun-error .scloudrun-error-bg .scloudrun-error-banner{
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+}
+.scloudrun-error p,.scloudrun-error a, .scloudrun-error h1{
+    font-family: "Microsoft YaHei", "微软雅黑", helvetica, arial, verdana, tahoma, sans-serif;
+}
+.scloudrun-error .scloudrun-error-bg2 .scloudrun-error-img{
+    background-image: url("http://r4.ykimg.com/051000005656EB9367BC3D4EDE02CD93?404_02.png");
+}
+.scloudrun-error .scloudrun-error-bg2 .scloudrun-error-banner {
+    height: 100%;
+}
+.scloudrun-error .scloudrun-error-bg3 .scloudrun-error-img {
+    background-image: url("http://r4.ykimg.com/051000005656EB9367BC3D49A80DEFFC?404_03.png");
+}
+.scloudrun-error .scloudrun-error-bg3 .scloudrun-error-banner {
+    height: 153px;
+    background-color:#64BEE0;
+}
+.scloudrun-error .scloudrun-error-bg4 .scloudrun-error-img {
+    background-image: url("http://r4.ykimg.com/051000005656EB9367BC3D72970D2E40?404_04.png");
+}
+.scloudrun-error .scloudrun-error-bg4 .scloudrun-error-banner {
+    height: 339px;
+    background-color:#2d87b8;
+}
+.scloudrun-error .scloudrun-error-bg5 .scloudrun-error-img {
+    background: url("http://r1.ykimg.com/0510000055C9AE9C67BC3D5C210779D4?404_05.jpg") no-repeat top center;
+}
+.scloudrun-error h1{
+    font-size:30px ;
+    color: #3399e0;
+    line-height: 32px;
+    margin-bottom: 20px;
+    font-weight: normal;
+}
+.scloudrun-error .scloudrun-error-detail{
+    font-size: 16px;
+    line-height: 30px;
+    vertical-align: middle;
+    width: 710px;
+    margin:0 auto;
+    *zoom: 1;
+}
+.scloudrun-error .scloudrun-error-detail:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.scloudrun-error-detail .scloudrun-error-info,.scloudrun-error-detail .scloudrun-error-app{
+    float: left;
+}
+.scloudrun-error-detail .scloudrun-error-info{
+    padding-left: 25px;
+    text-align: left;
+    border-right: 1px solid #cecece;
+    height: 64px;
+    padding-right: 20px;
+}
+.scloudrun-error-detail .scloudrun-error-info span{
+    display: block;
+    font-size: 16px;
+    line-height: 36px;
+}
+.scloudrun-error-detail .scloudrun-error-app{
+    margin-left: 18px;
+    padding: 10px 60px 10px 0;
+    width: 145px;
+    height: 44px;
+    background-color: #1c98e7;
+    border-radius: 2px;
+    position: relative;
+}
+.scloudrun-error-detail .scloudrun-error-app:hover {
+    background-color: #1a8ed8;
+}
+.scloudrun-error-detail .scloudrun-error-app span,.scloudrun-error-detail .scloudrun-error-info em{
+    display: block;
+    text-align: center;
+}
+.scloudrun-error-detail .scloudrun-error-app span{
+    font-size: 20px;
+    color: #ffffff;
+    line-height: 22px;
+}
+.scloudrun-error-detail .scloudrun-error-app em {
+    font-size: 14px;
+    color: #95ddfc;
+    line-height: 14px;
+    margin-top: 8px;
+    font-style: normal;
+}
+.scloudrun-error-detail .scloudrun-error-app img {
+    position: absolute;
+    right: 17px;
+    bottom: 2px;
+}
+.scloudrun-error  p{
+    margin: 20px 0;
+    text-align: center;
+    font-size: 16px;
+}
+.scloudrun-error  p img{
+    vertical-align: bottom;
+}
+.scloudrun-error .scloudrun-error-btn{
+    background-color: #1c98e7;
+    color: #fff;
+    padding:0 10px ;
+    font-size: 16px;
+    line-height: 30px;
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0 5px;
+    *display:inline;
+    zoom:1;
+}
+.scloudrun-error .scloudrun-error-btn:hover {
+    background-color: #1a89cf;
+}
+.scloudrun-error a,.scloudrun-error em {
+    color:#3399e0 ;
+    font-style: normal;
+}
+.scloudrun-error .scloudrun-error-detail img{
+    vertical-align: middle;
+}
+.scloudrun-drawer-rec-subscribe .scloudrun-drawer-box .scloudrun-head .scloudrun-title .rec-title{
+    color: #909090;
+}
+.scloudrun-error-rec{
+    padding-top: 540px;
+}
+.scloudrun-error-rec .scloudrun-drawer{
+    border: none;
+}
