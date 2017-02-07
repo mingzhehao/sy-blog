@@ -26,6 +26,11 @@ func init() {
 	beego.Router("/me/article/del", &controllers.ArticleController{}, "get:Del")
 	beego.Router("/me/article/draft", &controllers.ArticleController{}, "get:Draft")
 
+	/*留言板*/
 	beego.Router("/message", &controllers.MessageController{}, "get:MessageList")
 	beego.Router("/message/add", &controllers.MessageController{}, "post:AjaxAdd")
+
+	/*工具箱*/
+	beego.Router("/tools", &controllers.ToolsController{}, "get:ToolsList")
+	beego.Router("/tools/:ident", &controllers.ToolsController{}, "get:Read")
 }
