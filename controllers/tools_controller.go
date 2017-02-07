@@ -7,7 +7,7 @@ import (
 /**
  * 定义tools静态页面
  */
-const ToolsString = "git,svn,php,go,python,jquery,html"
+const ToolsString = "git,svn,php,go,python,jquery,java,python,html,nodejs,ruby,javascript,css,svn,mysql,regex,linux,html,lua,html-dom,express"
 
 type ToolsController struct {
 	BaseController
