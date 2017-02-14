@@ -23,6 +23,8 @@ func (this *MainController) ArticleList() {
 	total, _ := models.GetArticleCount()
 	this.Data["Articles"], _, _ = models.GetArticles(currPage, pageSize)
 	this.Data["HotArticles"], _, _ = models.GetHotArticles()
+	this.Data["HotTags"] = models.GetHotTags()
+	beego.Notice(this.Data["HotTags"])
 	this.SetPaginator(pageSize, total)
 	beego.Notice(total)
 	beego.Notice(this.Data["Articles"])

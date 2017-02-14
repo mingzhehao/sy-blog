@@ -14,6 +14,11 @@ type Tag struct {
 	Created_at time.Time `orm:"auto_now_add;type(datetime)"`
 }
 
+type CustomTag struct {
+	Ident string
+	Name  string
+}
+
 func init() {
 	orm.RegisterModelWithPrefix("bb_", new(Tag))
 }
@@ -31,6 +36,26 @@ func GetTags(currPage, pageSize int) ([]*Tag, int64, error) {
 		return nil, 0, err
 	}
 	return tags, total, err
+}
+
+func GetHotTags() []*CustomTag {
+	qb, _ := orm.NewQueryBuilder("mysql")
+	qb.Select("bb_tag.name",
+		"bb_blog.ident").
+		From("bb_tag").
+		InnerJoin("bb_blog").On("bb_tag.bid = bb_blog.id").
+		OrderBy("bb_tag.count").Desc().
+		Limit(10)
+
+	// 导出SQL语句
+	sql := qb.String()
+
+	// 执行SQL语句
+	o := orm.NewOrm()
+	dbRecs := make([]*CustomTag, 0)
+	o.Raw(sql).QueryRows(&dbRecs)
+	fmt.Println(dbRecs)
+	return dbRecs
 }
 
 func DeleteTag(id int64, tagName string) error {
