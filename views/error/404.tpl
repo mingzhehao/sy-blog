@@ -4,6 +4,7 @@
         <div class="scloudrun-error-banner"></div>
     </div>
     <h1 id="errorcont">哦~您找的页面飘得有点远......</h1>
+    <!--
     <div class="scloudrun-error-detail">
         <div class="scloudrun-error-info">
             <span>若是通过站外搜索而报错，可以点击<a href="http://www.soku.com/" class="scloudrun-error-btn">去搜库 </a>重新搜索~~</span>
@@ -15,6 +16,7 @@
             <img src="//r1.ykimg.com/0510000055F0F5B467BC3D0A740705B6">
         </a>
     </div>
+    -->
     <p><img src="//r1.ykimg.com/0510000055F0F5AD67BC3D208D044B4E"></p>
                 
 </div>
