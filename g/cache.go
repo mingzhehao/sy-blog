@@ -5,8 +5,10 @@ import (
 )
 
 const (
-	blogPrefix    = "b_"
-	catalogPrefix = "c_"
+	blogPrefix      = "b_"
+	catalogPrefix   = "c_"
+	chatPrefix      = "chat_"
+	chatCacheExpire = 3600
 )
 
 func BlogCachePut(key string, val interface{}) error {
@@ -32,3 +34,13 @@ func CatalogCacheDel(key string) error {
 func BlogCacheDel(key string) error {
 	return Cache.Delete(blogPrefix + key)
 }
+
+/*chat cache*/
+func ChatCachePut(key string, val interface{}) error {
+	return Cache.Put(chatPrefix+key, val, time.Duration(chatCacheExpire))
+}
+func ChatCacheGet(key string) interface{} {
+	return Cache.Get(chatPrefix + key)
+}
+
+/*chat cache*/

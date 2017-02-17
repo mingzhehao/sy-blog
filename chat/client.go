@@ -6,11 +6,15 @@ package chat
 
 import (
 	"bytes"
+	"encoding/json"
+	//"fmt"
 	"log"
 	"net/http"
 	"time"
 
+	"github.com/astaxie/beego"
 	"github.com/gorilla/websocket"
+	"github.com/mingzhehao/scloud/g"
 )
 
 const (
@@ -70,6 +74,36 @@ func (c *Client) readPump() {
 			break
 		}
 		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
+		var obj interface{} // var obj map[string]interface{}
+		json.Unmarshal([]byte(message), &obj)
+		m := obj.(map[string]interface{})
+		if m["type"] == "login" {
+			userList := beego.AppConfig.String("userList")
+			//fmt.Println("开始输出", userList)
+			if len(userList) == 0 {
+				//log.Printf("userList 为空", userList)
+				List := make(map[string]string)
+				List[m["client_id"].(string)] = m["client_name"].(string)
+				m["client_list"] = List
+				jsonM, _ := json.Marshal(m)
+				beego.AppConfig.Set("userList", string(jsonM))
+				//fmt.Println("输出 0 ", string(jsonM))
+				//fmt.Println(beego.AppConfig.String("userList"))
+			} else {
+				//log.Printf("userList 不为空", userList)
+				var objUserList map[string]string // var obj map[string]interface{}
+				json.Unmarshal([]byte(userList), &objUserList)
+				if len(objUserList[m["client_id"].(string)]) > 0 {
+					m["client_list"] = userList
+					//fmt.Println("输出 1 ", m)
+					g.ChatCachePut("userList", m)
+				} else {
+					objUserList[m["client_id"].(string)] = m["client_name"].(string)
+					//fmt.Println("输出 2 ", objUserList)
+					g.ChatCachePut("userList", objUserList)
+				}
+			}
+		}
 		c.hub.broadcast <- message
 	}
 }
@@ -99,6 +133,7 @@ func (c *Client) writePump() {
 			if err != nil {
 				return
 			}
+			//log.Printf("Downloaded %s byte file.\n", message)
 			w.Write(message)
 
 			// Add queued chat messages to the current websocket message.
