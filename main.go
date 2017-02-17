@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/mingzhehao/scloud/chat"
 	"github.com/mingzhehao/scloud/controllers"
 	"github.com/mingzhehao/scloud/g"
 	_ "github.com/mingzhehao/scloud/routers"
@@ -19,6 +20,9 @@ func GetUserImage(uid int64) (image string) {
 
 func main() {
 	g.InitEnv()
+	/*chat*/
+	chat.InitEnv()
+	/*chat*/
 	beego.AddFuncMap("getUserImage", GetUserImage)
 	beego.ErrorController(&controllers.ErrorController{})
 	beego.Run()

@@ -33,4 +33,8 @@ func init() {
 	/*工具箱*/
 	beego.Router("/tools", &controllers.ToolsController{}, "get:ToolsList")
 	beego.Router("/tools/:ident", &controllers.ToolsController{}, "get:Read")
+
+	/*聊天室*/
+	beego.Router("/chat", &controllers.ChatController{}, "get:Home")
+	beego.Router("/ws", &controllers.ChatController{}, "get:WebSocket")
 }

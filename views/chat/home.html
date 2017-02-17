@@ -1,0 +1,95 @@
+<script type="text/javascript">
+window.onload = function () {
+    var conn;
+    var msg = document.getElementById("msg");
+    var showMessage = document.getElementById("showMessage");
+
+    function appendLog(item) {
+        var content = "发布内容如下";
+        var username= "kladmin";
+        var publish_time="2017-01-19 01:42:49";
+        var doScroll = showMessage.scrollTop > showMessage.scrollHeight - showMessage.clientHeight - 1;
+        $("#showMessage").append('<li class="media"><a class="pull-left" href="/user/13" data-original-title="" title=""><img class="media-object" style="width:48px;height:48px;" src="/static/images/portrait.jpg" alt=""></a><div class="media-action" style="margin-top:0px;"><a href="javascript:;" style="color:#428bca">'+username+'</a> 发布于 '+publish_time+' CST</div><div class="media-body"><h2 class="media-heading"><lable>'+content+'</lable></h2></div></li>');
+        if (doScroll) {
+            showMessage.scrollTop = showMessage.scrollHeight - showMessage.clientHeight;
+        }
+    }
+
+    document.getElementById("form").onsubmit = function () {
+        if (!conn) {
+            return false;
+        }
+        if (!msg.value) {
+            return false;
+        }
+        conn.send(msg.value);
+        msg.value = "";
+        return false;
+    };
+
+    if (window["WebSocket"]) {
+        conn = new WebSocket("ws://" + document.location.host + "/ws");
+        conn.onclose = function (evt) {
+            var item = document.createElement("div");
+            item.innerHTML = "<b>Connection closed.</b>";
+            appendLog(item);
+        };
+        conn.onmessage = function (evt) {
+            var messages = evt.data.split('\n');
+            for (var i = 0; i < messages.length; i++) {
+                var item = document.createElement("div");
+                item.innerText = messages[i];
+                appendLog(item);
+            }
+    };
+} else {
+    var item = document.createElement("div");
+    item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
+    appendLog(item);
+}
+};
+</script>
+<style type="text/css">
+#showMessage ,#userList{
+margin: 0;
+background-color: #f5f5f5;
+border-radius: 4px;
+padding: 0.5em 0.5em 0.5em 0.5em;
+top: 0.5em;
+left: 0.5em;
+right: 0.5em;
+bottom: 3em;
+height:300px;
+overflow: auto;
+}
+
+#send {
+margin-top:15px;
+}
+
+#form {
+padding: 0 0.5em 0 0.5em;
+left: 0px;
+width: 100%;
+overflow: hidden;
+}
+
+</style>
+<div class="col-md-8" >
+    <div id="showMessage" class="media-list"></div>
+    <div id="send">
+        <form id="form">
+            <input type="submit" value="Send" />
+            <input type="text" id="msg" size="64"/>
+        </form>
+    </div>
+</div>
+<div class="col-md-4" >
+    <div id="userList" class="media-list">
+        <li class="media">
+            <a class="pull-left" href="javascript:;" data-original-title="" title=""><img class="media-object" style="width:48px;height:48px;" src="/static/images/portrait.jpg" alt="">
+                kladmin
+            </a>
+        </li>   
+    </div>
+</div>
