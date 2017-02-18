@@ -13,6 +13,8 @@ var ws,client_id, name, client_list={};
         client_id = $.md5(name);
         var client_name = name;
         ws.send('{"type":"say","client_id":"'+client_id+'","client_name":"'+client_name+'","content":"'+msg.value.replace(/"/g, '\\"').replace(/\n/g,'\\n').replace(/\r/g, '\\r')+'"}');
+        msg.value = "";
+        msg.focus();
         return false;
     };
     if (window["WebSocket"]) {
@@ -25,7 +27,12 @@ var ws,client_id, name, client_list={};
 
     // 连接服务端
     function connect() {
-       ws = new WebSocket("ws://" + document.location.host + "/ws");
+       var ishttps = 'https:' == document.location.protocol ? true: false;
+       if(ishttps){
+           ws = new WebSocket("wss://" + document.location.host + "/ws");
+       }else{
+           ws = new WebSocket("ws://" + document.location.host + "/ws");
+       }
        ws.onopen = onopen;
        ws.onmessage = onmessage; 
        ws.onclose = function() {
