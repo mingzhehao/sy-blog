@@ -122,11 +122,19 @@ var ws,client_id, name, client_list={};
         if(type == "system") {
             $("#showMessage").append('<li class="media"><div class="media-action" style="margin-top:0px;"><a href="javascript:;" style="color:#428bca">'+username+'</a> 加入了聊天室 登录于 '+publish_time+' CST</div><div class="media-body"><h2 class="media-heading"><lable></lable></h2></div></li>');
         }else {
-            $("#showMessage").append('<li class="media"><a class="pull-left" href="/user/13" data-original-title="" title=""><img class="media-object" style="width:48px;height:48px;" src="/static/images/portrait.jpg" alt=""></a><div class="media-action" style="margin-top:0px;"><a href="javascript:;" style="color:#428bca">'+username+'</a> 发布于 '+publish_time+' CST</div><div class="media-body"><h2 class="media-heading"><lable>'+content+'</lable></h2></div></li>');
+            $("#showMessage").append('<li class="media"><a class="pull-left" href="/user/13" data-original-title="" title=""><img class="media-object" style="width:48px;height:48px;" src="/static/images/portrait.jpg" alt=""></a><div class="media-action" style="margin-top:0px;"><a href="javascript:;" style="color:#428bca">'+username+'</a> 发布于 '+publish_time+' CST</div><div class="media-body"><h2 class="media-heading"><lable>'+HTMLEncode(content)+'</lable></h2></div></li>');
         }
         if (doScroll) {
             showMessage.scrollTop = showMessage.scrollHeight - showMessage.clientHeight;
         }
+    }
+
+    function HTMLEncode(html) {
+        var temp = document.createElement("div");
+        (temp.textContent != null) ? (temp.textContent = html) : (temp.innerText = html);
+        var output = temp.innerHTML;
+        temp = null;
+        return output;
     }
 
     function NowTime(){ 
