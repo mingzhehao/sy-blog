@@ -24,6 +24,7 @@ func (this *MessageController) MessageList() {
 	messages, _, _ = models.GetMessages(page, pageSize)
 	beego.Notice(total)
 	this.SetPaginator(pageSize, total)
+	this.Data["PageTitle"] = "留言板"
 	this.Data["Messages"] = messages
 	this.Data["Active"] = "message"
 	this.Data["xsrfdata"] = template.HTML(this.XSRFFormHTML())

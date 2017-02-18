@@ -117,7 +117,7 @@ var ws,client_id, name, client_list={};
     }  
 
     function appendLog(username,content,publish_time,type) {
-        var publish_time="2017-01-19 01:42:49";
+        var publish_time=NowTime();
         var doScroll = showMessage.scrollTop > showMessage.scrollHeight - showMessage.clientHeight - 1;
         if(type == "system") {
             $("#showMessage").append('<li class="media"><div class="media-action" style="margin-top:0px;"><a href="javascript:;" style="color:#428bca">'+username+'</a> 加入了聊天室 登录于 '+publish_time+' CST</div><div class="media-body"><h2 class="media-heading"><lable></lable></h2></div></li>');
@@ -128,6 +128,29 @@ var ws,client_id, name, client_list={};
             showMessage.scrollTop = showMessage.scrollHeight - showMessage.clientHeight;
         }
     }
+
+    function NowTime(){ 
+        var curTime=new Array(); 
+        var now=new Date(); 
+        var week=['日','一','二','三','四','五','六']; 
+        var year=now.getFullYear();   //年 
+        var month=now.getMonth()+1;   //月 
+        var day=now.getDate();      //日 
+        var hh=now.getHours();      //时 
+        var mm=now.getMinutes();     //分 
+        var sc=now.getSeconds();     //秒 
+        var wk=now.getDay();       //周 
+        curTime['year']=year; 
+        curTime['month']=month<10?'0'+month:month; 
+        curTime['day']=day<10?'0'+day:day; 
+        curTime['hh']=hh<10?'0'+hh:hh; 
+        curTime['mm']=mm<10?'0'+mm:mm; 
+        curTime['sc']=sc<10?'0'+sc:sc; 
+        curTime['wk']='星期'+week[wk]; 
+        curTime=curTime['year']+'-'+curTime['month']+'-'+curTime['day']+'-'+' '+curTime['wk']+' '+curTime['hh']+':'+curTime['mm']+':'+curTime['sc']; 
+        return curTime;
+    } 
+ 
 
 
 </script>

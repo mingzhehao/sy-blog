@@ -14,6 +14,7 @@ type ToolsController struct {
 }
 
 func (this *ToolsController) ToolsList() {
+	this.Data["PageTitle"] = "工具箱"
 	this.Data["Active"] = "tools"
 	this.Layout = "layout/main.html"
 	this.TplName = "tools/index.html"

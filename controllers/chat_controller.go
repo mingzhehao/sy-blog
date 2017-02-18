@@ -14,6 +14,7 @@ func (this *ChatController) WebSocket() {
 }
 
 func (this *ChatController) Home() {
+	this.Data["PageTitle"] = "聊天室"
 	this.Data["Active"] = "chat"
 	this.Layout = "layout/default.html"
 	this.TplName = "chat/home.html"
