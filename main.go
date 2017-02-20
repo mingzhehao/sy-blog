@@ -18,12 +18,19 @@ func GetUserImage(uid int64) (image string) {
 	return userImageArray[index]
 }
 
+func GetTagColor(count int64) (color string) {
+	tagColorArray := [4]string{"label-notice", "label-warning", "label-default", "label-primary"}
+	index := count % 4
+	return tagColorArray[index]
+}
+
 func main() {
 	g.InitEnv()
 	/*chat*/
 	chat.InitEnv()
 	/*chat*/
 	beego.AddFuncMap("getUserImage", GetUserImage)
+	beego.AddFuncMap("getTagColor", GetTagColor)
 	beego.ErrorController(&controllers.ErrorController{})
 	beego.Run()
 }

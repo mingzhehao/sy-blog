@@ -15,6 +15,7 @@ type Tag struct {
 }
 
 type CustomTag struct {
+	Id    int64
 	Ident string
 	Name  string
 }
@@ -40,7 +41,7 @@ func GetTags(currPage, pageSize int) ([]*Tag, int64, error) {
 
 func GetHotTags() []*CustomTag {
 	qb, _ := orm.NewQueryBuilder("mysql")
-	qb.Select("bb_tag.name",
+	qb.Select("bb_tag.name,bb_tag.id",
 		"bb_blog.ident").
 		From("bb_tag").
 		InnerJoin("bb_blog").On("bb_tag.bid = bb_blog.id").

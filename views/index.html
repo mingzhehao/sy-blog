@@ -15,8 +15,8 @@
                     <a href="/article/{{.Ident}}">{{.Title}}</a>
                 </h2>
                 <div class="media-action">
-                    <a href="/user/{{.Id}}">kladmin</a> 发布于 {{.Updated_at}}<span class="dot"> • </span>
-                    <span class="glyphicon glyphicon-thumbs-up"></span> {{.Up}}       
+                    <a href="javascript:;">scloud</a> 发布于 {{.Updated_at}}<span class="dot"> • </span>
+                    <!--<span class="glyphicon glyphicon-thumbs-up"></span> {{.Up}}-->       
                 </div>
             </div>
         </li>
@@ -44,7 +44,7 @@
         <div class="panel-body">
             <ul class="tag-list">
             {{range .HotTags}}
-                <li><span class="label label-primary"><a href="/article/{{.Ident}}">{{.Name}}</a></span></li>
+                <li><span class="label {{.Id | getTagColor}}"><a href="/article/{{.Ident}}">{{.Name}}</a></span></li>
             {{end}}
             </ul>
         </div>

@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/mingzhehao/scloud/g"
 	"github.com/mingzhehao/scloud/models"
@@ -45,6 +44,8 @@ func (this *MainController) CatalogList() {
 	}
 	pageSize, _ := strconv.Atoi(beego.AppConfig.String("pageSize"))
 	this.Data["Catalogs"], _, _ = models.GetCatalogs(currPage, pageSize)
+	this.Data["HotArticles"], _, _ = models.GetHotArticles()
+	this.Data["HotTags"] = models.GetHotTags()
 	this.Data["PageTitle"] = "首页"
 	this.Data["Active"] = "catalog"
 	this.Layout = "layout/default.html"
