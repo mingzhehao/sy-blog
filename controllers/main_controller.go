@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/mingzhehao/scloud/g"
 	"github.com/mingzhehao/scloud/models"
@@ -58,8 +59,11 @@ func (this *MainController) Read() {
 		return
 	}
 
-	b.Views = b.Views + 1
-	models.UpdateArticles(b, "")
+	if isView := g.ViewCacheGet(ident); isView != "true" {
+		b.Views = b.Views + 1
+		models.UpdateArticles(b, "")
+		g.ViewCachePut(ident, "true")
+	}
 
 	this.Data["Blog"] = b
 	this.Data["Content"] = g.RenderMarkdown(models.ReadBlogContent(b).Content)
