@@ -7,14 +7,14 @@ package chat
 import (
 	"bytes"
 	"encoding/json"
-	//"fmt"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
-	"github.com/astaxie/beego"
 	"github.com/gorilla/websocket"
-	"github.com/mingzhehao/scloud/g"
 )
 
 const (
@@ -30,6 +30,15 @@ const (
 	// Maximum message size allowed from peer.
 	maxMessageSize = 512
 )
+
+type Obj struct {
+	Type        string            `json:"type"`
+	Client_id   string            `json:"client_id"`
+	Client_name string            `json:"client_name"`
+	Client_list map[string]string `json:"client_list"`
+}
+
+const fileName = "clientList.json"
 
 var (
 	newline = []byte{'\n'}
@@ -74,35 +83,41 @@ func (c *Client) readPump() {
 			break
 		}
 		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
-		var obj interface{} // var obj map[string]interface{}
+		var obj Obj
+		var file *os.File
 		json.Unmarshal([]byte(message), &obj)
-		m := obj.(map[string]interface{})
-		if m["type"] == "login" {
-			userList := beego.AppConfig.String("userList")
-			//fmt.Println("开始输出", userList)
-			if len(userList) == 0 {
-				//log.Printf("userList 为空", userList)
-				List := make(map[string]string)
-				List[m["client_id"].(string)] = m["client_name"].(string)
-				m["client_list"] = List
-				jsonM, _ := json.Marshal(m)
-				beego.AppConfig.Set("userList", string(jsonM))
-				//fmt.Println("输出 0 ", string(jsonM))
-				//fmt.Println(beego.AppConfig.String("userList"))
+		if obj.Type == "login" {
+			if checkFileIsExist(fileName) { //如果文件存在
+				file, err = os.OpenFile(fileName, os.O_APPEND, 0666) //打开文件
+				if err != nil {
+					fmt.Println("文件存在", err)
+				}
 			} else {
-				//log.Printf("userList 不为空", userList)
-				var objUserList map[string]string // var obj map[string]interface{}
-				json.Unmarshal([]byte(userList), &objUserList)
-				if len(objUserList[m["client_id"].(string)]) > 0 {
-					m["client_list"] = userList
-					//fmt.Println("输出 1 ", m)
-					g.ChatCachePut("userList", m)
-				} else {
-					objUserList[m["client_id"].(string)] = m["client_name"].(string)
-					//fmt.Println("输出 2 ", objUserList)
-					g.ChatCachePut("userList", objUserList)
+				file, err = os.Create(fileName) //创建文件
+				if err != nil {
+					fmt.Println("文件不存在", err)
 				}
 			}
+			defer file.Close()
+			// 读取文件数据
+			hashMap := make(map[string]string)
+			data, err := ioutil.ReadAll(file)
+			if err == nil {
+				json.Unmarshal(data, &hashMap)
+			}
+			if len(hashMap[obj.Client_id]) == 0 {
+				hashMap[obj.Client_id] = obj.Client_name
+			}
+			obj.Client_list = hashMap
+
+			// 写字节到文件中
+			byteHashMap, _ := json.Marshal(hashMap)
+			byteSlice := []byte(byteHashMap)
+			err = ioutil.WriteFile(fileName, byteSlice, 0666)
+			if err != nil {
+				fmt.Println(err)
+			}
+			message, _ = json.Marshal(obj)
 		}
 		c.hub.broadcast <- message
 	}
@@ -166,4 +181,15 @@ func ServeWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	client.hub.register <- client
 	go client.writePump()
 	client.readPump()
+}
+
+/**
+ * 判断文件是否存在  存在返回 true 不存在返回false
+ */
+func checkFileIsExist(filename string) bool {
+	var exist = true
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		exist = false
+	}
+	return exist
 }

@@ -5,3 +5,4 @@
 *.swap
 scloud
 /static/uploads
+clientList.json
