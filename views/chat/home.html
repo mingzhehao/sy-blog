@@ -1,6 +1,7 @@
 <script src="/static/javascript/jquery.md5.js"></script>
 <script type="text/javascript">
 var ws,client_id, name, client_list={};
+var userImage = ["default1.jpg", "default2.jpg","default3.jpg","default4.jpg","default1.jpg"];
     function onSubmit() {
         var msg = document.getElementById("msg");
         var showMessage = document.getElementById("showMessage");
@@ -103,7 +104,8 @@ var ws,client_id, name, client_list={};
         userlist_window.empty();
         userlist_window.append('<h4>在线用户</h4><ul>');
         for(var p in client_list){
-            userlist_window.append('<li id="'+p+'"><img class="media-object" style="width:48px;height:48px;" src="/static/images/portrait.jpg" alt="">'+client_list[p]+'</li>');
+            var imageId = (parseInt(p)%4);
+            userlist_window.append('<li id="'+p+'"><img class="media-object" style="width:48px;height:48px;" src="/static/images/userImage/'+userImage[imageId]+'" alt="">'+client_list[p]+'</li>');
         }
         userlist_window.append('</ul>');
     }
@@ -116,13 +118,14 @@ var ws,client_id, name, client_list={};
         }
     }  
 
-    function appendLog(username,content,publish_time,type) {
+    function appendLog(username,content,client_id,type) {
         var publish_time=NowTime();
         var doScroll = showMessage.scrollTop > showMessage.scrollHeight - showMessage.clientHeight - 1;
         if(type == "system") {
             $("#showMessage").append('<li class="media"><div class="media-action" style="margin-top:0px;"><a href="javascript:;" style="color:#428bca">'+username+'</a> 加入了聊天室 登录于 '+publish_time+' CST</div><div class="media-body"><h2 class="media-heading"><lable></lable></h2></div></li>');
         }else {
-            $("#showMessage").append('<li class="media"><a class="pull-left" href="/user/13" data-original-title="" title=""><img class="media-object" style="width:48px;height:48px;" src="/static/images/portrait.jpg" alt=""></a><div class="media-action" style="margin-top:0px;"><a href="javascript:;" style="color:#428bca">'+username+'</a> 发布于 '+publish_time+' CST</div><div class="media-body"><h2 class="media-heading"><lable>'+HTMLEncode(content)+'</lable></h2></div></li>');
+            var imageId = (parseInt(client_id)%4);
+            $("#showMessage").append('<li class="media"><a class="pull-left" href="/user/13" data-original-title="" title=""><img class="media-object" style="width:48px;height:48px;" src="/static/images/userImage/'+userImage[imageId]+'" alt=""></a><div class="media-action" style="margin-top:0px;"><a href="javascript:;" style="color:#428bca">'+username+'</a> 发布于 '+publish_time+' CST</div><div class="media-body"><h2 class="media-heading"><lable>'+HTMLEncode(content)+'</lable></h2></div></li>');
         }
         if (doScroll) {
             showMessage.scrollTop = showMessage.scrollHeight - showMessage.clientHeight;
@@ -155,7 +158,7 @@ var ws,client_id, name, client_list={};
         curTime['mm']=mm<10?'0'+mm:mm; 
         curTime['sc']=sc<10?'0'+sc:sc; 
         curTime['wk']='星期'+week[wk]; 
-        curTime=curTime['year']+'-'+curTime['month']+'-'+curTime['day']+'-'+' '+curTime['wk']+' '+curTime['hh']+':'+curTime['mm']+':'+curTime['sc']; 
+        curTime=curTime['year']+'-'+curTime['month']+'-'+curTime['day']+''+' '+curTime['wk']+' '+curTime['hh']+':'+curTime['mm']+':'+curTime['sc']; 
         return curTime;
     } 
  
@@ -192,8 +195,8 @@ overflow: hidden;
     <div id="showMessage" class="media-list"></div>
     <div id="send">
         <form id="form" onsubmit="onSubmit(); return false;">
-            <input type="submit" value="Send" />
-            <input type="text" id="msg" size="64"/>
+            <input class="btn btn-primary" type="submit" value="发送" />
+            <input class="form-control" type="text" id="msg" size="64"/>
         </form>
     </div>
 </div>
@@ -201,7 +204,6 @@ overflow: hidden;
     <div id="userList" class="media-list">
         <li class="media">
             <a class="pull-left" href="javascript:;" data-original-title="" title=""><img class="media-object" style="width:48px;height:48px;" src="/static/images/portrait.jpg" alt="">
-                kladmin
             </a>
         </li>   
     </div>
